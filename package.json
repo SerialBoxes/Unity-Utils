@@ -1,27 +1,26 @@
 {
-  "name": "com.noodlemanifold.starterkit",
+  "name": "com.serialboxes.unityutils",
   "version": "1.3.0",
-  "displayName": "Noodle Unity Starter Kit",
-  "description": "This is a little package that just contains some assets for starting new projects. They are perfect for prototyping and game jams! There is also a cheat sheet for quick reference and refreshers on many Unity features! Have fun creating!!! <3",
-  "unity": "6000.0",
-  "unityRelease": "20f1",
+  "displayName": "Unity Utils",
+  "description": "This is a little package that just contains some useful tools and code that is helpful for me in my projects, and might be helpful for you too!",
+  "unity": "6000.4",
+  "unityRelease": "2f1",
   "dependencies": {
-    "com.unity.mathematics": "1.3.2"
+    "com.unity.mathematics": "1.3.3",
+    "com.unity.collections": "6.4.0",
+    "com.unity.entities": "6.4.0"
   },
-  "documentationUrl": "https://github.com/noodlemanifold/Noodle-Unity-Starter-Kit",
-  "changelogUrl": "https://github.com/noodlemanifold/Noodle-Unity-Starter-Kit/blob/main/Assets/StarterKit/CHANGELOG.md",
+  "documentationUrl": "https://github.com/SerialBoxes/Unity-Utils",
   "repository": {
-    "url": "https://github.com/noodlemanifold/Noodle-Unity-Starter-Kit.git?path=/Assets/StarterKit",
+    "url": "https://github.com/SerialBoxes/Unity-Utils",
     "type": "git"
   },
   "hideInEditor": "false",
   "author": {
-    "name": "Roxy Campbell",
-    "email": "roxannecampbell244@gmail.com",
-    "url": "https://noodlemanifold.github.io/"
+    "name": "SerialBoxes"
   },
   "_upm": {
-    "changelog": "bla :P"
+    "changelog": "Bla :P"
   },
   "samples": [
     {

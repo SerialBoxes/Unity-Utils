@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEditor;
 #endif
 
-namespace UnityUtils {
+namespace UnityUtils.Components {
 [ExecuteInEditMode]
 [RequireComponent(typeof(Collider))]
 public class TriggerHelper : MonoBehaviour {

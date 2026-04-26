@@ -1,4 +1,3 @@
-using Markdig;
 using UnityUtils;
 using Unity.Properties;
 using UnityEngine;
@@ -7,6 +6,7 @@ using UnityEngine.UIElements;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.UIElements;
+using Markdig;
 #endif
 
 namespace UnityUtils{
@@ -16,8 +16,10 @@ public class MarkdownDocument : ScriptableObject {
     
     public TextStyleSheet textStyle;
 
+    #pragma warning disable 0414
     [Button("RenderUXML", "Render Document!", true, true)] [SerializeField]
     private float forceButtonRender = 0f;
+    #pragma warning restore 0414
     
     public string rawText = "";
     

@@ -111,10 +111,10 @@ public class PrimitiveCreator : Editor {
     static PrimitiveCreator() {
         var ids = AssetDatabase.FindAssets("PrimitivePrefabsList t:PrimitivePrefabs");
         if (ids.Length == 0) {
-            ids = AssetDatabase.FindAssets("PrimitivePrefabsList t:PrimitivePrefabs", new string[] { "Assets/Unity-Utils" });
+            ids = AssetDatabase.FindAssets("PrimitivePrefabsList t:PrimitivePrefabs", new string[] { "Assets/Unity-Utils/Assets/Primitives/" });
         }
 
-        if (ids.Length == 1) {
+        if (ids.Length > 0) {
             var prefabsObject = AssetDatabase.LoadMainAssetAtPath(AssetDatabase.GUIDToAssetPath(ids[0]));
 
             PrimitivePrefabs.instance = (PrimitivePrefabs)prefabsObject;

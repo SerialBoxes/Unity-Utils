@@ -1,9 +1,11 @@
 {
-    "name": "UnityUtils.Main",
-    "rootNamespace": "",
+    "name": "UnityUtils",
+    "rootNamespace": "UnityUtils",
     "references": [
         "GUID:bf72a9de314dda8cc94e22aa15be9f7e",
-        "GUID:c2045d108e6ea2a339b94db22d72a40a"
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:734d92eba21c94caba915361bd5ac177"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
