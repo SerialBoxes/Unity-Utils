@@ -1,0 +1,56 @@
+.unity-list-view .unity-list-view__reorderable-item:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.unity-toggle {
+    margin-bottom: 0px;
+    height: 18px;
+}
+
+.unity-toggle > .unity-toggle__input > .unity-toggle__checkmark {
+    width: 18px;
+    height: 18px;
+}
+
+.unity-toggle:hover > .unity-toggle__input > .unity-toggle__checkmark {
+}
+
+.unity-toggle:checked > .unity-toggle__input > .unity-toggle__checkmark {
+    -unity-background-image-tint-color: rgb(187, 251, 191);
+}
+
+.unity-text-field > .unity-text-field__input {
+    display: flex;
+    font-size: 13px;
+}
+
+.unity-text-field:hover > .unity-text-field__input {
+}
+
+.unity-text-field:focus > .unity-text-field__input {
+}
+
+.unity-list-view__reorderable-item__container {
+    padding-left: 6px;
+}
+
+.unity-list-view__reorderable-handle{
+    display: none;
+}
+
+.unity-property-field__inspector-property .unity-list-view{
+    margin-left: 8px;
+}
+
+.unity-list-view .unity-button {
+    padding-left: 0;
+    padding-right: 0;
+    flex-shrink: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.unity-list-view .unity-button:hover {
+}

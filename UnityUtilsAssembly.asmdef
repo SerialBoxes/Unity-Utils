@@ -1,0 +1,18 @@
+{
+    "name": "NoodleKit.Common",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ed2b79e73e79bad4eaea1e8675a718bb",
+        "GUID:536de732cac78b342aa82ec2cf2bfe42",
+        "GUID:bfad709e00a6f194bafa3e1c2315305c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
