@@ -1,4 +1,3 @@
-# Noodle Unity Starter Assets
+Unity Utils
 
-This is a little package that just contains some assets for starting new projects. They are perfect for prototyping and 
-game jams! There is also a cheat sheet for quick reference and refreshers on many Unity features! Have fun creating!!! <3
+This is a little package that just contains some useful tools and code that is helpful for me in my projects, and might be helpful for you too!
