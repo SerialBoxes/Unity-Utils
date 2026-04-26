@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 #endif
 
-namespace NoodleKit {
+namespace UnityUtils {
 
 //These classes add a simple divider attribute that adds a lil spacer in the inspector! 
 [AttributeUsage(AttributeTargets.Field)]

@@ -1,5 +1,5 @@
 using Markdig;
-using NoodleKit;
+using UnityUtils;
 using Unity.Properties;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
@@ -9,9 +9,9 @@ using UnityEditor;
 using UnityEditor.UIElements;
 #endif
 
-namespace Noodlekit{
+namespace UnityUtils{
 
-[CreateAssetMenu(fileName = "Markdown", menuName = "Noodle Kit/Markdown")]
+[CreateAssetMenu(fileName = "Markdown", menuName = "Unity Utils/Markdown")]
 public class MarkdownDocument : ScriptableObject {
     
     public TextStyleSheet textStyle;

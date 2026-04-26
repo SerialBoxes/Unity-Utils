@@ -3,7 +3,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 #endif
 
-namespace NoodleKit {
+namespace UnityUtils {
 
 //[CreateAssetMenu(fileName = "PrimitivePrefabs", menuName = "Scriptable Objects/PrimitivePrefabs")]
 public class PrimitivePrefabs : ScriptableObject {

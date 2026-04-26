@@ -7,7 +7,7 @@ using UnityEngine;
 using Unity.Entities;
 
 
-namespace NoodleKit.ECS{
+namespace UnityUtils.Entities{
 //Using some hacky? generics stuff to make my own DrawGizmos Event in any system, managed or unmanaged.
 //https://discussions.unity.com/t/entity-visualizer-ondrawgizmos/744996/4
 public static class GizmoInvoker{

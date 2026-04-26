@@ -9,9 +9,9 @@ using UnityEditor;
 using UnityEditor.UIElements;
 #endif
 
-namespace NoodleKit {
+namespace UnityUtils {
 
-[CreateAssetMenu(fileName = "Checklist", menuName = "Noodle Kit/Checklist")]
+[CreateAssetMenu(fileName = "Checklist", menuName = "Unity Utils/Checklist")]
 public class Checklist : ScriptableObject {
     [System.Serializable]
     public class ChecklistItem {
@@ -46,10 +46,10 @@ public class ChecklistItemDrawer : PropertyDrawer { //inherit from property draw
         container.style.alignItems = Align.Center;
         container.style.marginTop = 1;
         
-        var tex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/StarterKit/Icons/handle.png");
-        if (tex == null) {
-            tex = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.noodlemanifold.starterkit/Icons/handle.png");
-        }
+        var tex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/UnityUtils/Icons/handle.png");
+        // if (tex == null) {
+        //     tex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/UnityUtils/Icons/handle.png");
+        // }
 
         VisualElement handle = new VisualElement();
         handle.style.width = 18;
@@ -60,7 +60,7 @@ public class ChecklistItemDrawer : PropertyDrawer { //inherit from property draw
         handle.style.alignContent = Align.Center;
         handle.style.alignItems = Align.Center;
         handle.style.backgroundImage = tex;//Background.FromTexture2D(EditorGUIUtility.IconContent("btn_AlignMiddle").image as Texture2D);//d_Remove@2x, check-dash@2x
-        handle.style.unityBackgroundImageTintColor = NoodleUtils.GetEditorUIPrimaryColor();
+        handle.style.unityBackgroundImageTintColor = UnityUtils.GetEditorUIPrimaryColor();
         container.Add(handle);
         
         Toggle tickBox = new Toggle();
@@ -177,7 +177,7 @@ public class ChecklistDrawer : Editor { //inherit from property drawer to change
         container.style.flexDirection = FlexDirection.Column;
         
         Label title = new Label();
-        title.text = NoodleUtils.FormatCamelCase(script.name);
+        title.text = UnityUtils.FormatCamelCase(script.name);
         title.style.fontSize = 24;
         title.style.marginTop = title.style.marginBottom = 12;
         container.Add(title);

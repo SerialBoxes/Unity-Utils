@@ -1,10 +1,9 @@
 {
-    "name": "NoodleKit.Common",
+    "name": "UnityUtils.Main",
     "rootNamespace": "",
     "references": [
-        "GUID:ed2b79e73e79bad4eaea1e8675a718bb",
-        "GUID:536de732cac78b342aa82ec2cf2bfe42",
-        "GUID:bfad709e00a6f194bafa3e1c2315305c"
+        "GUID:bf72a9de314dda8cc94e22aa15be9f7e",
+        "GUID:c2045d108e6ea2a339b94db22d72a40a"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

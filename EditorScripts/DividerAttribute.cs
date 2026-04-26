@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 #endif
 
-namespace NoodleKit {
+namespace UnityUtils {
 
 //These classes add a simple divider attribute that adds a lil spacer in the inspector! 
 [AttributeUsage(AttributeTargets.Field)]
@@ -29,7 +29,7 @@ public class DividerDrawer : DecoratorDrawer { //inherit from property drawer to
         DividerAttribute divider = attribute as DividerAttribute;
 
         VisualElement bar = new VisualElement();
-        bar.style.backgroundColor = NoodleUtils.GetEditorBorderColor();
+        bar.style.backgroundColor = UnityUtils.GetEditorBorderColor();
         bar.style.height = divider!.thickness;
         bar.style.marginLeft = 0;
         bar.style.marginRight = 12; //this centers it with the built-in left margin

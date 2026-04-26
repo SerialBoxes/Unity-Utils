@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-namespace NoodleKit {
+namespace UnityUtils {
 
 [InitializeOnLoad]
 public class PrimitiveCreator : Editor {
@@ -111,7 +111,7 @@ public class PrimitiveCreator : Editor {
     static PrimitiveCreator() {
         var ids = AssetDatabase.FindAssets("PrimitivePrefabsList t:PrimitivePrefabs");
         if (ids.Length == 0) {
-            ids = AssetDatabase.FindAssets("PrimitivePrefabsList t:PrimitivePrefabs", new string[] { "Packages/com.noodlemanifold.starterkit/Noodle Unity Starter Kit" });
+            ids = AssetDatabase.FindAssets("PrimitivePrefabsList t:PrimitivePrefabs", new string[] { "Assets/Unity-Utils" });
         }
 
         if (ids.Length == 1) {

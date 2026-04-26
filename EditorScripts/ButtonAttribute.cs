@@ -1,5 +1,3 @@
-
-
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,7 +8,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 #endif
 
-namespace NoodleKit {
+namespace UnityUtils {
 
 //these classes create a button to execute a UnityEvent. Only works for UnityEvents :(
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
@@ -58,7 +56,7 @@ public class ButtonDrawer : PropertyDrawer { //inherit from property drawer to c
             Button button = new Button();
 
             string label = buttonAttribute.label;
-            if (label.Length == 0) label = NoodleUtils.FormatCamelCase(buttonAttribute.function);
+            if (label.Length == 0) label = UnityUtils.FormatCamelCase(buttonAttribute.function);
             button.text = label;
 
             int margins = 2;

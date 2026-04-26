@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 #endif
 
-namespace NoodleKit {
+namespace UnityUtils {
 
 //these classes create a button to execute a UnityEvent. Only works for UnityEvents :(
 [AttributeUsage(AttributeTargets.Field)]
@@ -49,7 +49,7 @@ public class EventButtonDrawer : PropertyDrawer { //inherit from property drawer
             Button button = new Button();
 
             string label = eventButtonAttribute.label;
-            if (label.Length == 0) label = NoodleUtils.FormatCamelCase(property.name);
+            if (label.Length == 0) label = UnityUtils.FormatCamelCase(property.name);
             button.text = label;
 
             int margins = 2;
