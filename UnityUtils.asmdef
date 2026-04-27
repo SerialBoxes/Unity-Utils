@@ -5,11 +5,14 @@
         "GUID:bf72a9de314dda8cc94e22aa15be9f7e",
         "GUID:d8b63aba1907145bea998dd612889d6b",
         "GUID:e0cd26848372d4e5c891c569017e11f1",
-        "GUID:734d92eba21c94caba915361bd5ac177"
+        "GUID:734d92eba21c94caba915361bd5ac177",
+        "GUID:159aca2f335330348af7565091f798af",
+        "GUID:d5b6d673878904c4e86229129b6086a2",
+        "GUID:c38fb62397af04c51b143415e1db6d90"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,

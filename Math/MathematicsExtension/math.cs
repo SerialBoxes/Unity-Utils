@@ -82,5 +82,17 @@ public static partial class math {
         float3 orthogonalComponent = (numerator / denominator) * direction;
         return vector - orthogonalComponent;
     }
+    
+    /// <summary>
+    /// Takes a float in the range [min,max] and maps it to the range [0,1]
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float MapFromRange(float t, float min, float max) => (t - min) / (max - min);
+    
+    /// <summary>
+    /// Takes a float in the range [0,1] and maps it to the range [min,max]
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float MapToRange(float t, float min, float max) => t *(max - min) + min;
 }
 }
