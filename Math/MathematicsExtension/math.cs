@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace Unity.Mathematics {
 
@@ -20,6 +21,13 @@ public static partial class math {
         return dividend - divisor * floor(dividend / divisor);
     }
     
+    /// <summary>
+    /// Returns the smallest angle between two vectors in radians.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float angleFast(float3 a, float3 b) {
+        return acos(clamp(dot(a, b) / (length(a) * length(b)), -1f, 1f));
+    }
     
     //https://forum.kerbalspaceprogram.com/topic/164418-vector3angle-more-accurate-and-numerically-stable-at-small-angles-version/
     /// <summary>
@@ -38,17 +46,10 @@ public static partial class math {
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float angleSigned(float3 from, float3 to, float3 axis) {
-        float angle = acos(dot(normalize(from), normalize(to)));
+        float angle = angleStable(from, to);
         float signn = sign(dot(axis, cross(from, to)));
+        if (float.IsNaN(signn) || signn == 0) signn = 1;
         return angle * signn;
-    }
-    
-    /// <summary>
-    /// Returns the smallest angle between two vectors in radians.
-    /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float angleFast(float3 a, float3 b) {
-        return acos(clamp(dot(a, b) / (length(a) * length(b)), -1f, 1f));
     }
     
     /// <summary>
@@ -82,17 +83,30 @@ public static partial class math {
         float3 orthogonalComponent = (numerator / denominator) * direction;
         return vector - orthogonalComponent;
     }
-    
+
     /// <summary>
     /// Takes a float in the range [min,max] and maps it to the range [0,1]
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float MapFromRange(float t, float min, float max) => (t - min) / (max - min);
-    
+    public static float MapFromRange(float t, float min, float max) {
+        return (t - min) / (max - min);
+    }
+
     /// <summary>
     /// Takes a float in the range [0,1] and maps it to the range [min,max]
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float MapToRange(float t, float min, float max) => t *(max - min) + min;
+    public static float MapToRange(float t, float min, float max) {
+        return t * (max - min) + min;
+    }
+
+    /// <summary>
+    /// Takes a float and clamps the value to zero if it is less than t
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float clampDown(float f, float t = math.EPSILON) {
+        return f >= t ? f : 0;
+    }
+
 }
 }

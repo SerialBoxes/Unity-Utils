@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UnityUtils
 {
+    [System.Serializable]
     public struct dynamicfloat {
         public float minInput;
         public float maxInput;

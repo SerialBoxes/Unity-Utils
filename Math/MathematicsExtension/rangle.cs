@@ -67,7 +67,7 @@ public struct rangle : IEquatable<rangle>, IFormattable {
     /// <param name="v">The single precision float value to convert to rangle.</param>
     /// <returns>The converted rangle value.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static explicit operator rangle(float v) { return new rangle(v); }
+    public static implicit operator rangle(float v) { return new rangle(v); }
 
     /// <summary>Explicitly converts a double value to a rangle value.</summary>
     /// <param name="v">The double precision float value to convert to rangle.</param>

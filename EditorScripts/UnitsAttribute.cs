@@ -26,15 +26,16 @@ public class UnitsDrawer : PropertyDrawer {
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         VisualElement container = new VisualElement();
         UnitsAttribute unitsAttribute = attribute as UnitsAttribute;
-        container.style.flexDirection = FlexDirection.Row;
-        container.style.alignItems = Align.FlexEnd;
         
         PropertyField field = new PropertyField(property);
         field.style.flexGrow = 1;
         
         Label unitsLabel = new Label();
         unitsLabel.text = $"<alpha={unitsAttribute!.hexTransparency}> {unitsAttribute.unitsText}<alpha=#FF>";
-        unitsLabel.style.marginBottom = 4;
+        unitsLabel.style.marginTop = 2;
+        unitsLabel.style.position = Position.Absolute;
+        unitsLabel.style.right = 1;
+        unitsLabel.style.color = UnityUtils.GetEditorUILabelColor();
         
         container.Add(field);
         container.Add(unitsLabel);

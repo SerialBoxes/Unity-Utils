@@ -1,8 +1,9 @@
 
 using System;
 using Unity.Entities.UI;
-using UnityEditor.Compilation;
+using Unity.Mathematics;
 using UnityEngine.UIElements;
+using UnityUtils.VisualElements;
 
 namespace UnityUtils.Input {
     public enum ButtonState { 
@@ -33,13 +34,20 @@ namespace UnityUtils.Input {
     
     #if UNITY_EDITOR
     //https://discussions.unity.com/t/custom-property-drawer-for-components-and-buffers/935018/7
-    // class ButtonInspector : PropertyInspector<button> {
-    //     public override VisualElement Build() {
-    //         button target = Target;
-    //         var field = new EnumField("State");
-    //         field.value = target.state;
-    //         return field;
-    //     }
-    // }
+    class ButtonInspector : PropertyInspector<button> {
+        private TextField text;
+        public override VisualElement Build() {
+            VisualElement container = new VisualElement();
+            text = new TextField(Name.SplitPascalCase());
+            text.value = Target.state.ToString();
+            container.Add(text);
+            //register callbacks here if you want to be able to change values
+            return container;
+        }
+
+        public override void Update() {
+            text.value = Target.state.ToString();
+        }
+    }
 #endif
 }
