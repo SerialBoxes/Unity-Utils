@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace UnityUtils.ManagedAbstractStateMachine
+namespace UnityUtils.ManagedDelegateStateMachine
 {
     //Assumes that IStateData.name is the same as the key for the state in Dictionary<string, State<TInputs>> states
     //State & Transition data objects are not strongly typed so different states can store different data

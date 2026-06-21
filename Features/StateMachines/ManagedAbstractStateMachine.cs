@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace UnityUtils.ManagedDelegateStateMachine
+namespace UnityUtils.ManagedAbstractStateMachine
 {
     //Assumes that State.name is the same as the key for the state in Dictionary<string, State<TInputs>> states
     //This one is the simplest but you have to make a class for every state and transition! GODILOVEOBJECTORIENTEDPROGRAMMING!!!!!!!!!
