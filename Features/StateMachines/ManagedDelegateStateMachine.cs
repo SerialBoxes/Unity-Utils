@@ -53,7 +53,7 @@ namespace UnityUtils.ManagedDelegateStateMachine
                 currentState.OnEnter(machineData, currentState.data, input);
             }
 
-            currentState.OnTick(machineData.currentStateTime, machineData, currentState.data, input);
+            currentState.OnTick(delta, machineData, currentState.data, input);
             machineData.currentStateTime += delta;
         }
         
