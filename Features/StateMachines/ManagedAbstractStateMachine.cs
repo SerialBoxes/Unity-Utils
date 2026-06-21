@@ -35,7 +35,7 @@ namespace UnityUtils.ManagedAbstractStateMachine
             this.states = states;
         }
 
-        public void Tick(TMachine machine, float delta, TInputs input) {
+        public void Tick(float delta, TMachine machine, TInputs input) {
             EvaluateTransitions(machine, input);
             
             var currentState = states[machine.currentStateName];
