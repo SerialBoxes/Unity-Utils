@@ -1,31 +1,42 @@
 using System;
 using System.Collections.Generic;
 
-namespace UnityUtils.ManagedDelegateStateMachine
+namespace UnityUtils.ManagedAbstractStateMachine
 {
-    //Assumes that State.name is the same as the key for the state in Dictionary<string, State<TInputs>> states
-    //This one is the simplest but you have to make a class for every state and transition! GODILOVEOBJECTORIENTEDPROGRAMMING!!!!!!!!!
-    [System.Serializable]
-    public abstract class State<TInputs> {
-        public string name;
-        public Transition<TInputs>[] transitions;
-        public abstract void OnEnter(TInputs inputs);
-        public abstract void OnTick(float delta, TInputs inputs);
-        public abstract void OnExit(TInputs inputs);
+    //Assumes that IStateData.name is the same as the key for the state in Dictionary<string, State<TInputs>> states
+    //State & Transition data objects are not strongly typed so different states can store different data
+    //  downcast for your specific data type!
+    public interface IStateData {
+        public string name { get; set; }
+    }
+    
+    public interface ITransitionData {
+        public string destinationName { get; set; }
+    }
+    
+    public interface IMachineData {
+        public string currentStateName { get; set; }
+        public float currentStateTime { get; set; }
     }
 
     [System.Serializable]
-    public abstract class Transition<TInputs> {
-        public string destinationName;
-        public abstract bool ShouldTrigger (TInputs input);
-        public abstract bool OnTrigger (TInputs input);
+    public struct State<TInputs> {
+        public IStateData data;
+        public Transition<TInputs>[] transitions;
+        public Action<IMachineData, IStateData, TInputs> OnEnter;
+        public Action<float, IMachineData, IStateData, TInputs> OnTick;
+        public Action<IMachineData, IStateData, TInputs> OnExit;
+    }
+
+    [System.Serializable]
+    public struct Transition<TInputs> {
+        public ITransitionData data;
+        public Func<IMachineData, ITransitionData, TInputs, bool> ShouldTrigger;
+        public Action<IMachineData, ITransitionData, TInputs> OnTrigger;
     }
     
     [System.Serializable]
     public class StateMachine<TInputs> {
-
-        public string currentStateName;
-        public float currentStateTime;
         
         private Dictionary<string, State<TInputs>> states;
 
@@ -33,34 +44,35 @@ namespace UnityUtils.ManagedDelegateStateMachine
             this.states = states;
         }
 
-        public void Tick(float delta, TInputs input) {
-            var currentState = states[currentStateName];
+        public void Tick(float delta, ref IMachineData machineData, TInputs input) {
+            EvaluateTransitions(ref machineData, input);
+            
+            var currentState = states[machineData.currentStateName];
 
-            if (currentStateTime == 0) {
-                currentState.OnEnter(input);
+            if (machineData.currentStateTime == 0) {
+                currentState.OnEnter(machineData, currentState.data, input);
             }
 
-            currentState.OnTick(currentStateTime, input);
-            currentStateTime += delta;
-
-            EvaluateTransitions(input);
+            currentState.OnTick(machineData.currentStateTime, machineData, currentState.data, input);
+            machineData.currentStateTime += delta;
         }
         
-        private void EvaluateTransitions(TInputs input) {
-            var currentState = states[currentStateName];
+        private void EvaluateTransitions(ref IMachineData machineData, TInputs input) {
+            var currentState = states[machineData.currentStateName];
             foreach (var transition in currentState.transitions) {
-                if (transition.ShouldTrigger(input)) {
-                    SwitchState(transition.destinationName, input);
-                    transition.OnTrigger(input);
+                if (transition.ShouldTrigger(machineData, transition.data, input)) {
+                    SwitchState(ref machineData, transition.data.destinationName, input);
+                    transition.OnTrigger(machineData, transition.data, input);
+                    break;
                 }
             }
         }
         
-        private void SwitchState(string newStateName, TInputs input) {
-            var currentState = states[currentStateName];
-            currentState.OnExit(input);
-            currentStateTime = 0;
-            currentStateName = newStateName;
+        private void SwitchState(ref IMachineData machineData, string newStateName, TInputs input) {
+            var currentState = states[machineData.currentStateName];
+            currentState.OnExit(machineData, currentState.data, input);
+            machineData.currentStateTime = 0;
+            machineData.currentStateName = newStateName;
         }
     }
 }

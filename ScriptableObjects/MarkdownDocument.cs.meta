@@ -4,8 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - renderingSettings: {instanceID: 0}
-  - textStyle: {fileID: 11400000, guid: ca897bb4cee2fb6409547a141970ed35, type: 2}
+  - textStyle: {fileID: 11400000, guid: e738d7621095ccc129e71bd3b9bb142f, type: 2}
   executionOrder: 0
   icon: {fileID: 2800000, guid: c40508816ef466d4590feff72d1cb7c4, type: 3}
   userData: 

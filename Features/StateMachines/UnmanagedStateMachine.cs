@@ -32,13 +32,13 @@ namespace UnityUtils.UnmanagedStateMachine {
         public uint destinationID { get; }
     }
 
-    public interface IEvents<TInput, TState, TTransition> where TInput : unmanaged where TState : unmanaged, IState, IName where TTransition : unmanaged, ITransition, IName {
-        public void OnEnter(TState state, TInput inputData);
-        public void OnTick(float delta, TState state, TInput inputData);
-        public void OnExit(TState state, TInput inputData);
+    public interface IEvents<TMachineData, TInput, TState, TTransition> where TMachineData: unmanaged, IMachineData where TInput : unmanaged where TState : unmanaged, IState, IName where TTransition : unmanaged, ITransition, IName {
+        public void OnEnter(ref TMachineData machine, TState state, TInput inputData);
+        public void OnTick(float delta, ref TMachineData machine, TState state, TInput inputData);
+        public void OnExit(ref TMachineData machine, TState state, TInput inputData);
 
-        public bool ShouldTrigger(TTransition transition, TState state, TInput inputData);
-        public void OnTrigger(TTransition transition, TState state, TInput inputData);
+        public bool ShouldTrigger(ref TMachineData machine, TTransition transition, TState state, TInput inputData);
+        public void OnTrigger(ref TMachineData machine, TTransition transition, TState state, TInput inputData);
     }
 
     //---Actual Brains of the Operation---
@@ -48,7 +48,7 @@ namespace UnityUtils.UnmanagedStateMachine {
                                 where TState : unmanaged, IState, IName
                                 where TTransition : unmanaged, ITransition, IName
                                 where TInputs : unmanaged 
-                                where TEvents : unmanaged, IEvents<TInputs, TState, TTransition> {
+                                where TEvents : unmanaged, IEvents<TMachineData, TInputs, TState, TTransition> {
 
         private NativeHashMap<uint, TState> states;
         private NativeHashMap<uint, TTransition> transitions;
@@ -61,33 +61,36 @@ namespace UnityUtils.UnmanagedStateMachine {
         }
 
         public void Tick(float delta, ref TMachineData machineData, TInputs input) {
+            
+            EvaluateTransitions(ref machineData, input);
+            
             var currentState = states[machineData.currentStateID];
 
             if (machineData.currentStateTime == 0) {
-                events.OnEnter(currentState, input);
+                events.OnEnter(ref machineData, currentState, input);
             }
 
-            events.OnTick(delta, currentState, input);
+            events.OnTick(delta, ref machineData, currentState, input);
             machineData.currentStateTime += delta;
-
-            EvaluateTransitions(ref machineData, input);
         }
         
         private void EvaluateTransitions(ref TMachineData machineData, TInputs input) {
             var currentState = states[machineData.currentStateID];
             var transitionIDs = currentState.transitionIDs;
+            
             foreach (var transitionID in transitionIDs) {
                 var transition = transitions[transitionID];
-                if (events.ShouldTrigger(transition, currentState, input)) {
+                if (events.ShouldTrigger(ref machineData, transition, currentState, input)) {
                     SwitchState(ref machineData, transition.destinationID, input);
-                    events.OnTrigger(transition, currentState, input);
+                    events.OnTrigger(ref machineData, transition, currentState, input);
+                    break;
                 }
             }
         }
         
         private void SwitchState(ref TMachineData machineData, uint newStateID, TInputs input) {
             var currentState = states[machineData.currentStateID];
-            events.OnExit(currentState, input);
+            events.OnExit(ref machineData, currentState, input);
             machineData.currentStateTime = 0;
             machineData.currentStateID = newStateID;
         }

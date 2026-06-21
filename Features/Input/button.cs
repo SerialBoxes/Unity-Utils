@@ -26,9 +26,9 @@ namespace UnityUtils.Input {
             else state = ButtonState.Released;
         }
         
-        public bool up => state == ButtonState.Up;
+        public bool up => state == ButtonState.Up || state == ButtonState.Released;
         public bool pressed => state == ButtonState.Pressed;
-        public bool down => state == ButtonState.Down;
+        public bool down => state == ButtonState.Down || state == ButtonState.Pressed;
         public bool released => state == ButtonState.Released;
     }
     

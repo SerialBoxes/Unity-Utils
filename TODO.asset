@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3549743bb091a0855b6a9aaad1604ce9, type: 3}
+  m_Name: TODO
+  m_EditorClassIdentifier: UnityUtils::UnityUtils.Checklist
+  taskList:
+  - item:
+      complete: 0
+      text: Scene Notes
+    subtaskList: []
+  - item:
+      complete: 0
+      text: Test Material 2nd Pass
+    subtaskList: []
+  styleSheet: {fileID: 7433441132597879392, guid: a9cfea115ed746912b8eb1ef2cde1504, type: 3}

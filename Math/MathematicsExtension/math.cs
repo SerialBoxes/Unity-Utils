@@ -108,5 +108,21 @@ public static partial class math {
         return f >= t ? f : 0;
     }
 
+    /// <summary>
+    /// Takes a vector and normalizes it to lie on the edge of the unit square
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float2 normalizeSquare(float2 vec) {
+        return clamp(vec / max(max(abs(vec.x), abs(vec.y)), EPSILON), new float2(-1,-1), new float2(1,1));
+    }
+    
+    /// <summary>
+    /// Takes a vector and normalizes it to lie on the surface of the unit cube
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float3 normalizeCube(float3 vec) {
+        return clamp(vec / max(max(max(abs(vec.x), abs(vec.y)), abs(vec.z)), EPSILON), new float3(-1,-1,-1), new float3(1,1,1));
+    }
+
 }
 }

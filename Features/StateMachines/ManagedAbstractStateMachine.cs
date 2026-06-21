@@ -1,33 +1,24 @@
 using System;
 using System.Collections.Generic;
 
-namespace UnityUtils.ManagedAbstractStateMachine
+namespace UnityUtils.ManagedDelegateStateMachine
 {
-    //Assumes that IStateData.name is the same as the key for the state in Dictionary<string, State<TInputs>> states
-    //State & Transition data objects are not strongly typed so different states can store different data
-    //  downcast for your specific data type!
-    public interface IStateData {
-        public string name { get; set; }
-    }
-    
-    public interface ITransitionData {
-        public string destinationName { get; set; }
-    }
-
+    //Assumes that State.name is the same as the key for the state in Dictionary<string, State<TInputs>> states
+    //This one is the simplest but you have to make a class for every state and transition! GODILOVEOBJECTORIENTEDPROGRAMMING!!!!!!!!!
     [System.Serializable]
-    public struct State<TInputs> {
-        public IStateData data;
+    public abstract class State<TInputs> {
+        public string name;
         public Transition<TInputs>[] transitions;
-        public Action<IStateData, TInputs> OnEnter;
-        public Action<float, IStateData, TInputs> OnTick;
-        public Action<IStateData, TInputs> OnExit;
+        public abstract void OnEnter(TInputs inputs);
+        public abstract void OnTick(float delta, TInputs inputs);
+        public abstract void OnExit(TInputs inputs);
     }
 
     [System.Serializable]
-    public struct Transition<TInputs> {
-        public ITransitionData data;
-        public Func<ITransitionData, TInputs, bool> ShouldTrigger;
-        public Action<ITransitionData, TInputs> OnTrigger;
+    public abstract class Transition<TInputs> {
+        public string destinationName;
+        public abstract bool ShouldTrigger (TInputs input);
+        public abstract bool OnTrigger (TInputs input);
     }
     
     [System.Serializable]
@@ -46,10 +37,10 @@ namespace UnityUtils.ManagedAbstractStateMachine
             var currentState = states[currentStateName];
 
             if (currentStateTime == 0) {
-                currentState.OnEnter(currentState.data, input);
+                currentState.OnEnter(input);
             }
 
-            currentState.OnTick(currentStateTime, currentState.data, input);
+            currentState.OnTick(currentStateTime, input);
             currentStateTime += delta;
 
             EvaluateTransitions(input);
@@ -58,16 +49,16 @@ namespace UnityUtils.ManagedAbstractStateMachine
         private void EvaluateTransitions(TInputs input) {
             var currentState = states[currentStateName];
             foreach (var transition in currentState.transitions) {
-                if (transition.ShouldTrigger(transition.data, input)) {
-                    SwitchState(transition.data.destinationName, input);
-                    transition.OnTrigger(transition.data, input);
+                if (transition.ShouldTrigger(input)) {
+                    SwitchState(transition.destinationName, input);
+                    transition.OnTrigger(input);
                 }
             }
         }
         
         private void SwitchState(string newStateName, TInputs input) {
             var currentState = states[currentStateName];
-            currentState.OnExit(currentState.data, input);
+            currentState.OnExit(input);
             currentStateTime = 0;
             currentStateName = newStateName;
         }
