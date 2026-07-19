@@ -1,5 +1,6 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityUtils.Mathematics;
 
 namespace UnityUtils
 {
@@ -28,10 +29,10 @@ namespace UnityUtils
         }
 
         private static float Evaluate(float t, float minI, float maxI, float minO, float maxO, easingfunction curve, bool clampInput) {
-            float input = math.MapFromRange(t, minI, maxI);
+            float input = roxmath.MapFromRange(t, minI, maxI);
             if (clampInput) input = math.clamp(input, 0, 1);
             float fitToCurve = curve.Evaluate(input);
-            return math.MapToRange(fitToCurve, minO, maxO);
+            return roxmath.MapToRange(fitToCurve, minO, maxO);
         }
     }
 }

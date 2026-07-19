@@ -1,7 +1,7 @@
 using System;
-using UnityEngine.PlayerLoop;
+using Unity.Mathematics;
 
-namespace Unity.Mathematics {
+namespace UnityUtils.Mathematics {
     /// <summary>
     /// A float3 with precomputed direction and length for speed (with proper checking for zero length vectors)
     /// </summary>
@@ -23,7 +23,7 @@ namespace Unity.Mathematics {
 
         private void Update(float3 vector) {
             _vector = vector;
-            _length = math.clampDown(math.length(vector));
+            _length = roxmath.clampDown(math.length(vector));
             _direction = _length > 0 ? vector / _length : float3.zero;
         }
     }

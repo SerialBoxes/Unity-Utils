@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Unity.Mathematics;
 
 
-namespace Unity.Mathematics {
+namespace UnityUtils.Mathematics {
 
 /// <summary>
 /// A float that can only have a value between -π and π

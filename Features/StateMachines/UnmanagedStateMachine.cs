@@ -43,21 +43,21 @@ namespace UnityUtils.UnmanagedStateMachine {
 
     //---Actual Brains of the Operation---
     //(Make sure to call Dispose()!)
-    public struct StateMachine<TMachineData, TState, TTransition, TInputs, TEvents> 
+    public struct StateMachine<TMachineData, TState, TTransition, TInputs, TSwitch> 
                                 where TMachineData: unmanaged, IMachineData
                                 where TState : unmanaged, IState, IName
                                 where TTransition : unmanaged, ITransition, IName
                                 where TInputs : unmanaged 
-                                where TEvents : unmanaged, IEvents<TMachineData, TInputs, TState, TTransition> {
+                                where TSwitch : unmanaged, IEvents<TMachineData, TInputs, TState, TTransition> {
 
         private NativeHashMap<uint, TState> states;
         private NativeHashMap<uint, TTransition> transitions;
-        private TEvents events;
+        private TSwitch stateSwitch;
 
         public StateMachine(NativeArray<TState> states, NativeArray<TTransition> transitions) {
             this.states = ArrayToDictionary(states);
             this.transitions = ArrayToDictionary(transitions);
-            events = new();
+            stateSwitch = new();
         }
 
         public void Tick(float delta, ref TMachineData machineData, TInputs input) {
@@ -67,10 +67,10 @@ namespace UnityUtils.UnmanagedStateMachine {
             var currentState = states[machineData.currentStateID];
 
             if (machineData.currentStateTime == 0) {
-                events.OnEnter(ref machineData, currentState, input);
+                stateSwitch.OnEnter(ref machineData, currentState, input);
             }
 
-            events.OnTick(delta, ref machineData, currentState, input);
+            stateSwitch.OnTick(delta, ref machineData, currentState, input);
             machineData.currentStateTime += delta;
         }
         
@@ -80,9 +80,9 @@ namespace UnityUtils.UnmanagedStateMachine {
             
             foreach (var transitionID in transitionIDs) {
                 var transition = transitions[transitionID];
-                if (events.ShouldTrigger(ref machineData, transition, currentState, input)) {
+                if (stateSwitch.ShouldTrigger(ref machineData, transition, currentState, input)) {
                     SwitchState(ref machineData, transition.destinationID, input);
-                    events.OnTrigger(ref machineData, transition, currentState, input);
+                    stateSwitch.OnTrigger(ref machineData, transition, currentState, input);
                     break;
                 }
             }
@@ -90,7 +90,7 @@ namespace UnityUtils.UnmanagedStateMachine {
         
         private void SwitchState(ref TMachineData machineData, uint newStateID, TInputs input) {
             var currentState = states[machineData.currentStateID];
-            events.OnExit(ref machineData, currentState, input);
+            stateSwitch.OnExit(ref machineData, currentState, input);
             machineData.currentStateTime = 0;
             machineData.currentStateID = newStateID;
         }

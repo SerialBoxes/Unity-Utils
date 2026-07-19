@@ -168,7 +168,7 @@ public class ChecklistItemRootDrawer : PropertyDrawer { //inherit from property 
 [CustomEditor(typeof(Checklist))]
 public class ChecklistDrawer : Editor { //inherit from property drawer to change how a property is drawn
 
-    [SerializeField]
+
     Dictionary<VisualElement,ContextualMenuManipulator> manipulatorDictionary = new();
     public override VisualElement CreateInspectorGUI() {
         Checklist script = (Checklist)target;

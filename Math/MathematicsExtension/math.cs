@@ -1,16 +1,17 @@
 using System.Runtime.CompilerServices;
+using Unity.Mathematics;
 using UnityEngine;
 
-namespace Unity.Mathematics {
+namespace UnityUtils.Mathematics {
 
-public static partial class math {
+public static class roxmath {
 
     /// <summary>
     /// Takes the mod of dividend with divisor, but negative numbers are treated the same as positive numbers, so results are continuous across 0, if that makes sense?
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float modRight(float dividend, float divisor) {
-        return dividend - divisor * floor(dividend / divisor);
+        return dividend - divisor * math.floor(dividend / divisor);
     }
     
     /// <summary>
@@ -18,7 +19,7 @@ public static partial class math {
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double modRight(double dividend, double divisor) {
-        return dividend - divisor * floor(dividend / divisor);
+        return dividend - divisor * math.floor(dividend / divisor);
     }
     
     /// <summary>
@@ -26,7 +27,7 @@ public static partial class math {
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float angleFast(float3 a, float3 b) {
-        return acos(clamp(dot(a, b) / (length(a) * length(b)), -1f, 1f));
+        return math.acos(math.clamp(math.dot(a, b) / (math.length(a) * math.length(b)), -1f, 1f));
     }
     
     //https://forum.kerbalspaceprogram.com/topic/164418-vector3angle-more-accurate-and-numerically-stable-at-small-angles-version/
@@ -35,9 +36,9 @@ public static partial class math {
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float angleStable(float3 a, float3 b) {
-        var abm = a*length(b);
-        var bam = b*length(a);
-        return 2 * atan2(length(abm-bam), length(abm+bam));
+        var abm = a*math.length(b);
+        var bam = b*math.length(a);
+        return 2 * math.atan2(math.length(abm-bam), math.length(abm+bam));
     }
     
     //https://github.com/Unity-Technologies/Unity.Mathematics/issues/84
@@ -47,7 +48,7 @@ public static partial class math {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float angleSigned(float3 from, float3 to, float3 axis) {
         float angle = angleStable(from, to);
-        float signn = sign(dot(axis, cross(from, to)));
+        float signn = math.sign(math.dot(axis, math.cross(from, to)));
         if (float.IsNaN(signn) || signn == 0) signn = 1;
         return angle * signn;
     }
@@ -57,8 +58,8 @@ public static partial class math {
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float lawOfCosines(float a, float b, float C) {
-        float csq = a*a + b*b - 2 *a*b*cos(C);
-        return sqrt(csq);
+        float csq = a*a + b*b - 2 *a*b*math.cos(C);
+        return math.sqrt(csq);
     }
 
     /// <summary>
@@ -66,7 +67,7 @@ public static partial class math {
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 projectOntoPlane(float3 vector, float3 planeNormal) {
-        return vector - dot(planeNormal, vector) * planeNormal;
+        return vector - math.dot(planeNormal, vector) * planeNormal;
     }
 
     //https://math.stackexchange.com/questions/4108428/how-to-project-vector-onto-a-plane-but-not-along-plane-normal
@@ -74,8 +75,8 @@ public static partial class math {
     /// Projects a vector onto a plane along an arbitrary direction.
     /// </summary>
     public static float3 projectOntoPlane(float3 vector, float3 planeNormal, float3 direction) {
-        float numerator = dot(vector, planeNormal);
-        float denominator = dot(direction, planeNormal);
+        float numerator = math.dot(vector, planeNormal);
+        float denominator = math.dot(direction, planeNormal);
         if (denominator == 0f){
             //vector already inside plane
             return vector;
@@ -113,7 +114,7 @@ public static partial class math {
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 normalizeSquare(float2 vec) {
-        return clamp(vec / max(max(abs(vec.x), abs(vec.y)), EPSILON), new float2(-1,-1), new float2(1,1));
+        return math.clamp(vec / math.max(math.max(math.abs(vec.x), math.abs(vec.y)), math.EPSILON), new float2(-1,-1), new float2(1,1));
     }
     
     /// <summary>
@@ -121,7 +122,7 @@ public static partial class math {
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 normalizeCube(float3 vec) {
-        return clamp(vec / max(max(max(abs(vec.x), abs(vec.y)), abs(vec.z)), EPSILON), new float3(-1,-1,-1), new float3(1,1,1));
+        return math.clamp(vec / math.max(math.max(math.max(math.abs(vec.x), math.abs(vec.y)), math.abs(vec.z)), math.EPSILON), new float3(-1,-1,-1), new float3(1,1,1));
     }
 
 }

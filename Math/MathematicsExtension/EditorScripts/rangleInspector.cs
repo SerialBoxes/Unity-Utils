@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace Unity.Mathematics {
+namespace UnityUtils.Mathematics {
 
 [CustomPropertyDrawer(typeof(rangle))]
 public class rangleDrawer : PropertyDrawer {
