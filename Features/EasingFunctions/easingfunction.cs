@@ -1,9 +1,8 @@
 using Unity.Entities.UI;
 using Unity.Mathematics;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
-using UnityUtils.Input;
+using UnityUtils.Mathematics;
 using UnityUtils.VisualElements;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -46,6 +45,14 @@ namespace UnityUtils
         
         public easingfunction(EasingFunctionType type) {
             this.type = type;
+        }
+        
+        
+        public float Evaluate(float t, float minI, float maxI, float minO, float maxO, bool clampInput = true) {
+            float input = roxmath.MapFromRange(t, minI, maxI);
+            if (clampInput) input = math.clamp(input, 0, 1);
+            float fitToCurve = Evaluate(input);
+            return roxmath.MapToRange(fitToCurve, minO, maxO);
         }
 
         public float Evaluate(float x) => type switch {
@@ -139,7 +146,8 @@ namespace UnityUtils
             nameLabel.style.minWidth = 76;
             container.Add(nameLabel);
             
-            container.RegisterCallback((GeometryChangedEvent evt) => { nameLabel.style.width = ((VisualElement)evt.currentTarget).panel.visualTree.contentRect.width * 0.45f - 100;});
+            //container.RegisterCallback((GeometryChangedEvent evt) => { nameLabel.style.width = ((VisualElement)evt.currentTarget).panel.visualTree.contentRect.width * 0.45f - 100;});
+            container.RegisterCallback((GeometryChangedEvent evt) => { nameLabel.style.width = FindContainer((VisualElement)evt.currentTarget).contentRect.width * 0.45f - 50;});
 
             VisualElement rightSide = new VisualElement();
             rightSide.style.display = DisplayStyle.Flex;
@@ -163,6 +171,11 @@ namespace UnityUtils
             rightSide.Add(graph);
             //register callbacks here if you want to be able to change values
             return container;
+        }
+
+        private static VisualElement FindContainer(VisualElement element) {
+            if (element.parent is null || element.ClassListContains("unity-inspector-main-container")) return element;
+            return FindContainer(element.parent);
         }
     }
 #endif

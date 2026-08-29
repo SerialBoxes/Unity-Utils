@@ -1,29 +1,22 @@
-using System;
 using System.Collections.Generic;
 
 namespace UnityUtils.ManagedAbstractStateMachine
 {
-    //Assumes that State.name is the same as the key for the state in Dictionary<string, State<TInputs>> states
-    //This one is the simplest but you have to make a class for every state and transition! GODILOVEOBJECTORIENTEDPROGRAMMING!!!!!!!!!
+    // I am deeply upset that the cleanest state machine implementation I can come up with is Object Oriented
     [System.Serializable]
     public abstract class Machine {
         public string currentStateName;
+        public string previousStateName;
         public float currentStateTime;
     }
     
     [System.Serializable]
-    public abstract class State<TMachine, TInputs> {
-        public Transition<TMachine, TInputs>[] transitions;
+    public abstract class State <TMachine, TInputs> {
+        public string name;
         public abstract void OnEnter(TMachine machine, TInputs inputs);
         public abstract void OnTick(float delta, TMachine machine, TInputs inputs);
         public abstract void OnExit(TMachine machine, TInputs inputs);
-    }
-
-    [System.Serializable]
-    public abstract class Transition<TMachine, TInputs> {
-        public string destinationName;
-        public abstract bool ShouldTrigger (TMachine machine, TInputs input);
-        public abstract void OnTrigger (TMachine machine, TInputs input);
+        public abstract string EvaluateTransitions(TMachine machine, TInputs inputs);
     }
     
     [System.Serializable]
@@ -31,8 +24,11 @@ namespace UnityUtils.ManagedAbstractStateMachine
         
         private Dictionary<string, State<TMachine, TInputs>> states;
 
-        public StateMachine(Dictionary<string, State<TMachine, TInputs>> states) {
-            this.states = states;
+        public StateMachine(List<State<TMachine, TInputs>> stateList) {
+            states = new();
+            foreach (var state in stateList) {
+                states.Add(state.name, state);
+            }
         }
 
         public void Tick(float delta, TMachine machine, TInputs input) {
@@ -50,12 +46,9 @@ namespace UnityUtils.ManagedAbstractStateMachine
         
         private void EvaluateTransitions(TMachine machine, TInputs input) {
             var currentState = states[machine.currentStateName];
-            foreach (var transition in currentState.transitions) {
-                if (transition.ShouldTrigger(machine, input)) {
-                    SwitchState(transition.destinationName, machine, input);
-                    transition.OnTrigger(machine, input);
-                    break;
-                }
+            var nextStateName = currentState.EvaluateTransitions(machine, input);
+            if (machine.currentStateName != nextStateName) {
+                SwitchState(nextStateName, machine, input);
             }
         }
         
@@ -63,6 +56,7 @@ namespace UnityUtils.ManagedAbstractStateMachine
             var currentState = states[machine.currentStateName];
             currentState.OnExit(machine, input);
             machine.currentStateTime = 0;
+            machine.previousStateName = machine.currentStateName;
             machine.currentStateName = newStateName;
         }
     }
